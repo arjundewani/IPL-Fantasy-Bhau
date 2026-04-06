@@ -351,12 +351,12 @@
 <div class="modal-overlay" id="rulesModal" onclick="if(event.target===this)this.classList.remove('open')">
   <div class="modal">
     <h3>🏏 Scoring Rules</h3>
-    <div class="rule-row"><span>1 Run scored</span><span class="rule-pts">1 pt  =  ₹1</span></div>
+    <div class="rule-row"><span>1 Run scored</span><span class="rule-pts">1 pt</span></div>
     <div class="rule-row"><span>Every 50 runs (bonus per 50)</span><span class="rule-pts">+25 pts</span></div>
-    <div class="rule-row"><span>1 Wicket taken</span><span class="rule-pts">20 pts  =  ₹20</span></div>
+    <div class="rule-row"><span>1 Wicket taken</span><span class="rule-pts">20 pts</span></div>
     <div class="rule-row"><span>3-Wicket haul bonus</span><span class="rule-pts">+25 pts</span></div>
     <div class="rule-row"><span>5-Wicket haul bonus</span><span class="rule-pts">+50 pts</span></div>
-    <div class="rule-row"><span>Catch / Run-out / Stumping</span><span class="rule-pts">10 pts  =  ₹10</span></div>
+    <div class="rule-row"><span>Catch / Run-out / Stumping</span><span class="rule-pts">10 pts</span></div>
     <div class="rule-row"><span>Captain multiplier</span><span class="rule-pts">2× total pts</span></div>
     <button class="close-modal" onclick="document.getElementById('rulesModal').classList.remove('open')">Got it!</button>
   </div>
@@ -412,10 +412,10 @@ function refreshMatch(matchId) {
     const fn = document.getElementById('friendName').value || 'Friend';
     if (youPts > friendPts) {
       result.className = 'match-result result-win';
-      result.textContent = `🎉 ${yn} wins by ${youPts - friendPts} pts (₹${youPts - friendPts})`;
+      result.textContent = `🎉 ${yn} wins by ${youPts - friendPts} pts`;
     } else if (friendPts > youPts) {
       result.className = 'match-result result-lose';
-      result.textContent = `😬 ${fn} wins by ${friendPts - youPts} pts (₹${friendPts - youPts})`;
+      result.textContent = `😬 ${fn} wins by ${friendPts - youPts} pts`;
     } else {
       result.className = 'match-result result-tie';
       result.textContent = `🤝 Tied! (${youPts} pts each)`;
@@ -566,15 +566,13 @@ function refreshSummary() {
       <td>${winIcon} ${label}</td>
       <td style="color:var(--gold)">${youPts}</td>
       <td style="color:#ffaa66">${frPts}</td>
-      <td style="color:var(--gold)">₹${youPts}</td>
-      <td style="color:#ffaa66">₹${frPts}</td>
     </tr>`;
   });
 
   const winnerBanner = youTotal > frTotal
-    ? `🏆 ${yn} WINS OVERALL by ${youTotal - frTotal} pts (₹${youTotal - frTotal})`
+    ? `🏆 ${yn} WINS OVERALL by ${youTotal - frTotal} pts`
     : frTotal > youTotal
-    ? `🏆 ${fn} WINS OVERALL by ${frTotal - youTotal} pts (₹${frTotal - youTotal})`
+    ? `🏆 ${fn} WINS OVERALL by ${frTotal - youTotal} pts`
     : `🤝 ALL SQUARE — It's a tie!`;
 
   document.getElementById('summary').innerHTML = `
@@ -582,22 +580,20 @@ function refreshSummary() {
     <div class="summary-grid">
       <div class="summary-card">
         <div class="s-label">Your Total</div><div class="s-name">${yn}</div>
-        <div class="s-pts">${youTotal}</div><div class="s-cash">₹${youTotal} earned</div>
+        <div class="s-pts">${youTotal}</div>
       </div>
       <div class="summary-card">
         <div class="s-label">Friend's Total</div><div class="s-name">${fn}</div>
-        <div class="s-pts">${frTotal}</div><div class="s-cash">₹${frTotal} earned</div>
+        <div class="s-pts">${frTotal}</div>
       </div>
     </div>
     <div class="match-breakdown"><table>
-      <thead><tr><th>Match</th><th>${yn} Pts</th><th>${fn} Pts</th><th>${yn} Cash</th><th>${fn} Cash</th></tr></thead>
+      <thead><tr><th>Match</th><th>${yn} Pts</th><th>${fn} Pts</th></tr></thead>
       <tbody>${rows}</tbody>
       <tr style="border-top:1px solid rgba(255,255,255,0.2)">
         <td style="font-weight:700;color:#fff">TOTAL</td>
         <td style="font-weight:700;color:var(--gold)">${youTotal}</td>
         <td style="font-weight:700;color:#ffaa66">${frTotal}</td>
-        <td style="font-weight:700;color:var(--gold)">₹${youTotal}</td>
-        <td style="font-weight:700;color:#ffaa66">₹${frTotal}</td>
       </tr>
     </table></div>
     <div class="winner-banner">${winnerBanner}</div>`;
@@ -693,7 +689,7 @@ function exportExcel() {
     const label = document.getElementById(`${id}_label`)?.value || `Match ${i+1}`;
     const sheetName = label.replace(/[\\\/\?\*\[\]:]/g,'').substring(0, 31) || `Match ${i+1}`;
     const rows = [[`Match: ${label}`], []];
-    rows.push([yn + ' Squad', 'Player', 'Runs', 'Wkts', 'Catches', 'Captain', 'Points', 'Cash (₹)']);
+    rows.push([yn + ' Squad', 'Player', 'Runs', 'Wkts', 'Catches', 'Captain', 'Points']);
     for (let p = 0; p < 6; p++) {
       const name  = document.getElementById(`${id}_you_name_${p}`)?.value || `Player ${p+1}`;
       const runs  = parseInt(document.getElementById(`${id}_you_runs_${p}`)?.value) || 0;
@@ -701,12 +697,12 @@ function exportExcel() {
       const field = parseInt(document.getElementById(`${id}_you_field_${p}`)?.value) || 0;
       const cap   = document.getElementById(`${id}_you_cap_${p}`)?.checked ? 'YES' : 'NO';
       const pts   = parseInt(document.getElementById(`${id}_you_pts_${p}`)?.textContent) || 0;
-      rows.push(['', name, runs, wkts, field, cap, pts, pts]);
+      rows.push(['', name, runs, wkts, field, cap, pts]);
     }
     const youTot = parseInt(document.getElementById(`${id}_you_total`)?.textContent) || 0;
     rows.push(['', 'TOTAL', '', '', '', '', youTot, youTot]);
     rows.push([]);
-    rows.push([fn + ' Squad', 'Player', 'Runs', 'Wkts', 'Catches', 'Captain', 'Points', 'Cash (₹)']);
+    rows.push([fn + ' Squad', 'Player', 'Runs', 'Wkts', 'Catches', 'Captain', 'Points']);
     for (let p = 0; p < 6; p++) {
       const name  = document.getElementById(`${id}_fr_name_${p}`)?.value || `Player ${p+1}`;
       const runs  = parseInt(document.getElementById(`${id}_fr_runs_${p}`)?.value) || 0;
@@ -714,7 +710,7 @@ function exportExcel() {
       const field = parseInt(document.getElementById(`${id}_fr_field_${p}`)?.value) || 0;
       const cap   = document.getElementById(`${id}_fr_cap_${p}`)?.checked ? 'YES' : 'NO';
       const pts   = parseInt(document.getElementById(`${id}_fr_pts_${p}`)?.textContent) || 0;
-      rows.push(['', name, runs, wkts, field, cap, pts, pts]);
+      rows.push(['', name, runs, wkts, field, cap, pts]);
     }
     const frTot = parseInt(document.getElementById(`${id}_fr_total`)?.textContent) || 0;
     rows.push(['', 'TOTAL', '', '', '', '', frTot, frTot]);
@@ -722,16 +718,16 @@ function exportExcel() {
   });
 
   // Summary sheet
-  const sumRows = [['IPL Fantasy – Overall Summary'], [], ['Match', yn + ' Pts', fn + ' Pts', yn + ' Cash (₹)', fn + ' Cash (₹)']];
+  const sumRows = [['IPL Fantasy – Overall Summary'], [], ['Match', yn + ' Pts', fn + ' Pts']];
   let yTot = 0, fTot = 0;
   [...matches].reverse().forEach((id, i) => {
     const label  = document.getElementById(`${id}_label`)?.value || `Match ${i+1}`;
     const youPts = parseInt(document.getElementById(`${id}_you_total`)?.textContent) || 0;
     const frPts  = parseInt(document.getElementById(`${id}_fr_total`)?.textContent) || 0;
     yTot += youPts; fTot += frPts;
-    sumRows.push([label, youPts, frPts, youPts, frPts]);
+    sumRows.push([label, youPts, frPts]);
   });
-  sumRows.push(['TOTAL', yTot, fTot, yTot, fTot]);
+  sumRows.push(['TOTAL', yTot, fTot]);
   sumRows.push([]);
   const winner = yTot > fTot ? `${yn} wins by ${yTot-fTot} pts` : fTot > yTot ? `${fn} wins by ${fTot-yTot} pts` : 'Tied!';
   sumRows.push(['Result:', winner]);
