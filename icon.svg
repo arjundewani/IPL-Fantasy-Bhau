@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="100" fill="#003366"/>
+  <rect x="60" y="60" width="392" height="392" rx="80" fill="#003366"/>
+  <!-- Cricket bat -->
+  <rect x="230" y="80" width="52" height="220" rx="26" fill="#e8a020"/>
+  <rect x="218" y="280" width="76" height="100" rx="12" fill="#cc7700"/>
+  <!-- Ball -->
+  <circle cx="340" cy="340" r="70" fill="#ff6600"/>
+  <path d="M295 310 Q340 270 385 310" stroke="#cc2200" stroke-width="6" fill="none"/>
+  <path d="M295 370 Q340 410 385 370" stroke="#cc2200" stroke-width="6" fill="none"/>
+  <path d="M310 295 Q350 340 310 385" stroke="#cc2200" stroke-width="6" fill="none"/>
+  <path d="M370 295 Q330 340 370 385" stroke="#cc2200" stroke-width="6" fill="none"/>
+  <!-- Stars -->
+  <text x="256" y="430" font-size="40" text-anchor="middle" fill="#ffd700">🏏</text>
+</svg>
