@@ -1,4 +1,4 @@
-const CACHE = 'ipl-fantasy-bhau-v1';
+const CACHE = 'ipl-fantasy-bhau-v2';
 const FILES = ['./index.html', './manifest.json', './icon.svg'];
 
 self.addEventListener('install', e => {
@@ -13,8 +13,15 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 
+// Network-first: always try to get fresh version, fall back to cache if offline
 self.addEventListener('fetch', e => {
   e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./index.html')))
+    fetch(e.request)
+      .then(response => {
+        const clone = response.clone();
+        caches.open(CACHE).then(c => c.put(e.request, clone));
+        return response;
+      })
+      .catch(() => caches.match(e.request))
   );
 });
